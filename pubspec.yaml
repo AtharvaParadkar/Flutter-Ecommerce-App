@@ -12,11 +12,33 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^4.0.0
+
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/images/image.png
+    - assets/fonts/
+
+  fonts:
+    - family: AirbnbCerealApp
+      fonts:
+        - asset: assets/fonts/AirbnbCereal_W_Lt.otf
+          weight: 300
+        - asset: assets/fonts/AirbnbCereal_W_Bk.otf
+          weight: 400
+        - asset: assets/fonts/AirbnbCereal_W_Md.otf
+          weight: 500
+        - asset: assets/fonts/AirbnbCereal_W_Bd.otf
+          weight: 700
+        - asset: assets/fonts/AirbnbCereal_W_XBd.otf
+          weight: 800
+        - asset: assets/fonts/AirbnbCereal_W_Blk.otf
+          weight: 900
