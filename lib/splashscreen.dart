@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce_app/screens/onboard1.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,9 +15,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), (){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>const Onboard1()));
     });
-    
+
   }
   @override
   Widget build(BuildContext context) {
