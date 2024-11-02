@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ecommerce_app/screens/onboard2.dart';
 import 'package:flutter_ecommerce_app/theme/theme.dart';
 import 'package:gap/gap.dart';
 
-class Onboard1 extends StatelessWidget {
-  const Onboard1({super.key});
+class Onboard2 extends StatelessWidget {
+  const Onboard2({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Scaffold(
       body: Container(
         color: primaryColor,
         height: MediaQuery.sizeOf(context).height,
@@ -48,16 +47,16 @@ class Onboard1 extends StatelessWidget {
                     height: 112,
                     width: 337,
                     child: Text(
-                      'Start Journey With Shoes',
+                      'Follow Latest Style Shoes',
                       style: primaryTextStyle(40, FontWeight.w600),
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 33, 0),
+                    padding: const EdgeInsets.fromLTRB(18, 0, 33, 0),
                     width: 322,
                     height: 64,
                     child: Text(
-                      'Smart, Gorgeous & Fashionable Collection',
+                      'There Are Many Beautiful And Attractive Plants To Your Room',
                       style: secondaryTextStyle(18, FontWeight.w400),
                     ),
                   ),
@@ -75,18 +74,18 @@ class Onboard1 extends StatelessWidget {
                   children: [
                     Container(
                       height: 5,
-                      width: 35,
+                      width: 8,
                       decoration: BoxDecoration(
-                        color: buttonColor,
+                        color: const Color.fromARGB(255, 229, 238, 247),
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
                     const Gap(8),
                     Container(
                       height: 5,
-                      width: 8,
+                      width: 35,
                       decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 229, 238, 247),
+                        color: buttonColor,
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
@@ -104,12 +103,12 @@ class Onboard1 extends StatelessWidget {
                       height: 64,
                       width: 165,
                       child: ElevatedButton(
-                        onPressed: ()=>Navigator.push(context,MaterialPageRoute(builder: (_)=>const Onboard2())),
+                        onPressed: () {},
                         style: ElevatedButton.styleFrom(
                           backgroundColor: buttonColor,
                         ),
                         child: Text(
-                          'Get Started',
+                          'Next',
                           style: primaryTextStyle(18, FontWeight.w500),
                         ),
                       ),
