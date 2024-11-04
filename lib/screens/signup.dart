@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce_app/components/text_field.dart';
 import 'package:flutter_ecommerce_app/screens/signin.dart';
 import 'package:flutter_ecommerce_app/theme/theme.dart';
 import 'package:gap/gap.dart';
@@ -10,7 +11,10 @@ class SignUp extends StatefulWidget {
   State<SignUp> createState() => _SignUpState();
 }
 
-class _SignUpState extends State<SignUp> {final formkey = GlobalKey<FormState>();
+class _SignUpState extends State<SignUp> {
+  final emailController = TextEditingController(),
+      passwordController = TextEditingController();
+  final formkey = GlobalKey<FormState>();
 
   bool obstext = true;
   String email = '', passsword = '';
@@ -108,34 +112,18 @@ class _SignUpState extends State<SignUp> {final formkey = GlobalKey<FormState>()
                             style: primaryTextStyle(16, FontWeight.w500),
                           ),
                           const Gap(10),
-                          SizedBox(
-                            height: 48,
-                            width: 335,
-                            child: TextFormField(
-                              style: primaryTextStyle(16, FontWeight.w600),
-                              decoration: InputDecoration(
-                                hintText: 'atharva@gmailcom',
-                                hintStyle:
-                                    secondaryTextStyle(16, FontWeight.w400),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(50),
-                                    borderSide: BorderSide.none),
-                                filled: true,
-                                fillColor: secondaryColor,
-                              ),
-                              key: const ValueKey('email'),
-                              validator: (value) {
-                                if (value.toString().isEmpty ||
-                                    !value.toString().contains('@')) {
-                                  return 'Enter Valid Email Id';
-                                } else {
-                                  return null;
-                                }
-                              },
-                              onSaved: (value) {
-                                email = value.toString();
-                              },
-                            ),
+                          MyTextField(
+                            controller: emailController,
+                            hintText: 'atharva@gmial.com',
+                            obscureText: false,
+                            validator: (value) {
+                              if (value.toString().isEmpty ||
+                                  !value.toString().contains('@')) {
+                                return 'Enter Valid Email Id';
+                              } else {
+                                return null;
+                              }
+                            },
                           ),
                           const Gap(25),
                           Text(
@@ -143,49 +131,17 @@ class _SignUpState extends State<SignUp> {final formkey = GlobalKey<FormState>()
                             style: primaryTextStyle(16, FontWeight.w500),
                           ),
                           const Gap(10),
-                          SizedBox(
-                            height: 48,
-                            width: 335,
-                            child: TextFormField(
-                              style: primaryTextStyle(16, FontWeight.w600),
-                              obscureText: obstext,
-                              decoration: InputDecoration(
-                                hintText: '●●●●●●●●',
-                                hintStyle:
-                                    secondaryTextStyle(16, FontWeight.w400),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(50),
-                                  borderSide: BorderSide.none,
-                                ),
-                                suffixIcon: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      obstext = !obstext;
-                                    });
-                                  },
-                                  icon: Icon(
-                                    obstext
-                                        ? Icons.remove_red_eye_sharp
-                                        : Icons.visibility_off_sharp,
-                                    color: const Color.fromARGB(
-                                        255, 112, 123, 129),
-                                  ),
-                                ),
-                                filled: true,
-                                fillColor: secondaryColor,
-                              ),
-                              key: const ValueKey('password'),
-                              validator: (value) {
-                                if (value.toString().length < 8) {
-                                  return 'Password must be greater than 8 characters';
-                                } else {
-                                  return null;
-                                }
-                              },
-                              onSaved: (value) {
-                                passsword = value.toString();
-                              },
-                            ),
+                          MyTextField(
+                            controller: passwordController,
+                            hintText: '●●●●●●●●',
+                            obscureText: true,
+                            validator: (value) {
+                              if (value.toString().length < 8) {
+                                return 'Password must be greater than 8 characters';
+                              } else {
+                                return null;
+                              }
+                            },
                           ),
                           const Gap(25),
                           Text(
@@ -193,49 +149,17 @@ class _SignUpState extends State<SignUp> {final formkey = GlobalKey<FormState>()
                             style: primaryTextStyle(16, FontWeight.w500),
                           ),
                           const Gap(10),
-                          SizedBox(
-                            height: 48,
-                            width: 335,
-                            child: TextFormField(
-                              style: primaryTextStyle(16, FontWeight.w600),
-                              obscureText: obstext,
-                              decoration: InputDecoration(
-                                hintText: '●●●●●●●●',
-                                hintStyle:
-                                    secondaryTextStyle(16, FontWeight.w400),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(50),
-                                  borderSide: BorderSide.none,
-                                ),
-                                suffixIcon: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      obstext = !obstext;
-                                    });
-                                  },
-                                  icon: Icon(
-                                    obstext
-                                        ? Icons.remove_red_eye_sharp
-                                        : Icons.visibility_off_sharp,
-                                    color: const Color.fromARGB(
-                                        255, 112, 123, 129),
-                                  ),
-                                ),
-                                filled: true,
-                                fillColor: secondaryColor,
-                              ),
-                              key: const ValueKey('password'),
-                              validator: (value) {
-                                if (value.toString().length < 8) {
-                                  return 'Password must be greater than 8 characters';
-                                } else {
-                                  return null;
-                                }
-                              },
-                              onSaved: (value) {
-                                passsword = value.toString();
-                              },
-                            ),
+                          MyTextField(
+                            controller: passwordController,
+                            hintText: '●●●●●●●●',
+                            obscureText: true,
+                            validator: (value) {
+                              if (value.toString().length < 8) {
+                                return 'Password must be greater than 8 characters';
+                              } else {
+                                return null;
+                              }
+                            },
                           ),
                           const Gap(40),
                           ElevatedButton(
