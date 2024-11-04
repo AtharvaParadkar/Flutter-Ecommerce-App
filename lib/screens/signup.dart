@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ecommerce_app/screens/signup.dart';
+import 'package:flutter_ecommerce_app/screens/signin.dart';
 import 'package:flutter_ecommerce_app/theme/theme.dart';
 import 'package:gap/gap.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _SignInState extends State<SignIn> {
-  final formkey = GlobalKey<FormState>();
+class _SignUpState extends State<SignUp> {final formkey = GlobalKey<FormState>();
 
   bool obstext = true;
   String email = '', passsword = '';
@@ -77,7 +76,7 @@ class _SignInState extends State<SignIn> {
               ),
             ),
             Positioned(
-              top: 128,
+              top: 100,
               child: Column(
                 children: [
                   SizedBox(
@@ -86,17 +85,17 @@ class _SignInState extends State<SignIn> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          'Hello Again!',
+                          'Hello!',
                           style: primaryTextStyle(28, FontWeight.w500),
                         ),
                         Text(
-                          'Welcome Back You\'ve Been Missed',
+                          'Welcome Please SignUp!',
                           style: secondaryTextStyle(16, FontWeight.w400),
                         ),
                       ],
                     ),
                   ),
-                  const Gap(50),
+                  const Gap(40),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Form(
@@ -108,7 +107,7 @@ class _SignInState extends State<SignIn> {
                             'Email Address',
                             style: primaryTextStyle(16, FontWeight.w500),
                           ),
-                          const Gap(15),
+                          const Gap(10),
                           SizedBox(
                             height: 48,
                             width: 335,
@@ -138,12 +137,12 @@ class _SignInState extends State<SignIn> {
                               },
                             ),
                           ),
-                          const Gap(30),
+                          const Gap(25),
                           Text(
                             'Password',
                             style: primaryTextStyle(16, FontWeight.w500),
                           ),
-                          const Gap(16),
+                          const Gap(10),
                           SizedBox(
                             height: 48,
                             width: 335,
@@ -188,15 +187,55 @@ class _SignInState extends State<SignIn> {
                               },
                             ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              const Gap(180),
-                              Text(
-                                'Recovery Password',
-                                style: secondaryTextStyle(12, FontWeight.w200),
+                          const Gap(25),
+                          Text(
+                            'Confirm Password',
+                            style: primaryTextStyle(16, FontWeight.w500),
+                          ),
+                          const Gap(10),
+                          SizedBox(
+                            height: 48,
+                            width: 335,
+                            child: TextFormField(
+                              style: primaryTextStyle(16, FontWeight.w600),
+                              obscureText: obstext,
+                              decoration: InputDecoration(
+                                hintText: '●●●●●●●●',
+                                hintStyle:
+                                    secondaryTextStyle(16, FontWeight.w400),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                  borderSide: BorderSide.none,
+                                ),
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      obstext = !obstext;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    obstext
+                                        ? Icons.remove_red_eye_sharp
+                                        : Icons.visibility_off_sharp,
+                                    color: const Color.fromARGB(
+                                        255, 112, 123, 129),
+                                  ),
+                                ),
+                                filled: true,
+                                fillColor: secondaryColor,
                               ),
-                            ],
+                              key: const ValueKey('password'),
+                              validator: (value) {
+                                if (value.toString().length < 8) {
+                                  return 'Password must be greater than 8 characters';
+                                } else {
+                                  return null;
+                                }
+                              },
+                              onSaved: (value) {
+                                passsword = value.toString();
+                              },
+                            ),
                           ),
                           const Gap(40),
                           ElevatedButton(
@@ -207,7 +246,7 @@ class _SignInState extends State<SignIn> {
                                 backgroundColor: buttonColor,
                                 fixedSize: const Size(335, 54)),
                             child: Text(
-                              'Sign In',
+                              'Sign Up',
                               style: primaryTextStyle(18, FontWeight.w500),
                             ),
                           ),
@@ -227,7 +266,7 @@ class _SignInState extends State<SignIn> {
                                   fit: BoxFit.cover,
                                 ),
                                 Text(
-                                  ' Sign in With Google',
+                                  ' Sign Up With Google',
                                   style: primaryTextStyle(18, FontWeight.w500),
                                 ),
                               ],
@@ -246,14 +285,14 @@ class _SignInState extends State<SignIn> {
               child: Row(
                 children: [
                   Text(
-                    'Don\'t Have An Account ',
+                    'Already Have An Account ',
                     style: secondaryTextStyle(12, FontWeight.w400),
                   ),
                   InkWell(
                     onTap: () => Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => const SignUp())),
+                        MaterialPageRoute(builder: (_) => const SignIn())),
                     child: Text(
-                      'Sign Up For Free',
+                      'Sign In',
                       style: primaryTextStyle(12, FontWeight.w500),
                     ),
                   ),
