@@ -1,5 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_app/components/text_field.dart';
+import 'package:flutter_ecommerce_app/screens/home.dart';
 import 'package:flutter_ecommerce_app/screens/signup.dart';
 import 'package:flutter_ecommerce_app/theme/theme.dart';
 import 'package:gap/gap.dart';
@@ -14,45 +18,63 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final emailController = TextEditingController(),
       passwordController = TextEditingController();
+
   final formkey = GlobalKey<FormState>();
 
   bool obstext = true;
-  String email = '', passsword = '';
 
-  trySignIn() {
-    final isValid = formkey.currentState!.validate();
-    if (isValid) {
-      formkey.currentState!.save();
-      final snacks = SnackBar(
-        content: Center(
-          child: Text(
-            '$email - $passsword',
-            style: primaryTextStyle(16, FontWeight.w700),
-          ),
-        ),
-        backgroundColor: buttonColor,
-        shape: const StadiumBorder(),
-        animation: const AlwaysStoppedAnimation(10),
-        duration: const Duration(seconds: 3),
-        behavior: SnackBarBehavior.floating,
+  Future<void> signUserIn() async {
+    // showDialog(
+    //   context: context,
+    //   barrierDismissible: false,
+    //   builder: (context) => const Center(
+    //     child: CircularProgressIndicator(),
+    //   ),
+    // );
+
+    try {
+      // ignore: unused_local_variable
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
       );
-      ScaffoldMessenger.of(context).showSnackBar(snacks);
-    } else {
-      final snacks = SnackBar(
-        content: Center(
-          child: Text(
-            'Error!',
-            style: primaryTextStyle(16, FontWeight.w700),
-          ),
-        ),
-        backgroundColor: buttonColor,
-        shape: const StadiumBorder(),
-        animation: const AlwaysStoppedAnimation(10),
-        duration: const Duration(seconds: 3),
-        behavior: SnackBarBehavior.floating,
+      // if (mounted) {
+      //   Navigator.pop(context);
+      // }
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
       );
-      ScaffoldMessenger.of(context).showSnackBar(snacks);
+    } on FirebaseAuthException catch (e) {
+      // if (mounted) {
+      //   Navigator.pop(context);
+      // }
+      // if (mounted) {
+      //   setState(() {});
+      // }
+      if (e.code == 'user-not-found') {
+        debugPrint('No user Found for this email');
+        _showErrorDialog('No User Found for this Email');
+      } else if (e.code == 'wrong-password') {
+        debugPrint('Wrong password provided for that user.');
+        _showErrorDialog('Wrong Password');
+      }
     }
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -114,8 +136,8 @@ class _SignInState extends State<SignIn> {
                           const Gap(15),
                           MyTextField(
                             controller: emailController,
-                            hintText: 'atharva@gmial.com',
-                            obscureText: true,
+                            hintText: 'atharva@gmail.com',
+                            obscureText: false,
                             validator: (value) {
                               if (value.toString().isEmpty ||
                                   !value.toString().contains('@')) {
@@ -155,8 +177,17 @@ class _SignInState extends State<SignIn> {
                           ),
                           const Gap(40),
                           ElevatedButton(
-                            onPressed: () {
-                              trySignIn();
+                            onPressed: () async {
+                              await FirebaseAuth.instance
+                                  .signInWithEmailAndPassword(
+                                email: emailController.text,
+                                password: passwordController.text,
+                              );
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()),
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: buttonColor,

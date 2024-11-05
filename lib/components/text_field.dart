@@ -19,7 +19,7 @@ class MyTextField extends StatefulWidget {
 }
 
 class _MyTextFieldState extends State<MyTextField> {
-  late bool obstext=true;
+  late bool obstext=false;
 
   @override
   Widget build(BuildContext context) {

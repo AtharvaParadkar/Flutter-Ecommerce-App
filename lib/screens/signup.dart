@@ -114,7 +114,7 @@ class _SignUpState extends State<SignUp> {
                           const Gap(10),
                           MyTextField(
                             controller: emailController,
-                            hintText: 'atharva@gmial.com',
+                            hintText: 'atharva@gmail.com',
                             obscureText: false,
                             validator: (value) {
                               if (value.toString().isEmpty ||
