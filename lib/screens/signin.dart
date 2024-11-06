@@ -4,12 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_app/components/text_field.dart';
 import 'package:flutter_ecommerce_app/screens/home.dart';
-import 'package:flutter_ecommerce_app/screens/signup.dart';
 import 'package:flutter_ecommerce_app/theme/theme.dart';
 import 'package:gap/gap.dart';
 
 class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+  const SignIn({super.key, this.ontap});
+
+  final Function()? ontap; 
 
   @override
   State<SignIn> createState() => _SignInState();
@@ -43,7 +44,7 @@ class _SignInState extends State<SignIn> {
       // }
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomePage()),
+        MaterialPageRoute(builder: (context) => const HomePage()),
       );
     } on FirebaseAuthException catch (e) {
       // if (mounted) {
@@ -54,15 +55,15 @@ class _SignInState extends State<SignIn> {
       // }
       if (e.code == 'user-not-found') {
         debugPrint('No user Found for this email');
-        _showErrorDialog('No User Found for this Email');
+        showErrorDialog('No User Found for this Email');
       } else if (e.code == 'wrong-password') {
         debugPrint('Wrong password provided for that user.');
-        _showErrorDialog('Wrong Password');
+        showErrorDialog('Wrong Password');
       }
     }
   }
 
-  void _showErrorDialog(String message) {
+  void showErrorDialog(String message) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -186,7 +187,7 @@ class _SignInState extends State<SignIn> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomePage()),
+                                    builder: (context) => const HomePage()),
                               );
                             },
                             style: ElevatedButton.styleFrom(
@@ -236,8 +237,7 @@ class _SignInState extends State<SignIn> {
                     style: secondaryTextStyle(12, FontWeight.w400),
                   ),
                   InkWell(
-                    onTap: () => Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => const SignUp())),
+                    onTap:widget.ontap,
                     child: Text(
                       'Sign Up For Free',
                       style: primaryTextStyle(12, FontWeight.w500),

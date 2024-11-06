@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_app/screens/home.dart';
-import 'package:flutter_ecommerce_app/screens/onboard1.dart';
+import 'package:flutter_ecommerce_app/signin_or_signup.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -15,11 +15,11 @@ class AuthPage extends StatelessWidget {
           debugPrint('Auth state: ${snapshot.hasData ? "Logged In" : "Logged Out"}');
           //& User is Logged in
           if(snapshot.hasData){
-            return HomePage();
+            return const HomePage();
           }
           //& User is Not Logged in
           else{
-            return const Onboard1();
+            return const SigninOrSignupPage();
           }
         },
       ),

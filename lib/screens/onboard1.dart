@@ -104,7 +104,7 @@ class Onboard1 extends StatelessWidget {
                       height: 64,
                       width: 165,
                       child: ElevatedButton(
-                        onPressed: ()=>Navigator.push(context,MaterialPageRoute(builder: (_)=>const Onboard2())),
+                        onPressed: ()=>Navigator.pushReplacement(context,MaterialPageRoute(builder: (_)=>const Onboard2())),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: buttonColor,
                         ),
