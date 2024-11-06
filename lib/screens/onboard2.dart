@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ecommerce_app/screens/signin.dart';
+import 'package:flutter_ecommerce_app/services/auth/signin_or_signup.dart';
 import 'package:flutter_ecommerce_app/theme/theme.dart';
 import 'package:gap/gap.dart';
 
@@ -104,7 +104,7 @@ class Onboard2 extends StatelessWidget {
                       height: 64,
                       width: 165,
                       child: ElevatedButton(
-                        onPressed: ()=>Navigator.pushReplacement(context,MaterialPageRoute(builder: (_)=>const SignIn())),
+                        onPressed: ()=>Navigator.pushReplacement(context,MaterialPageRoute(builder: (_)=>const SigninOrSignupPage())),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: buttonColor,
                         ),
