@@ -3,7 +3,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_app/components/text_field.dart';
-import 'package:flutter_ecommerce_app/screens/home.dart';
+import 'package:flutter_ecommerce_app/services/auth/auth_page.dart';
+import 'package:flutter_ecommerce_app/services/auth/auth_service.dart';
 import 'package:flutter_ecommerce_app/theme/theme.dart';
 import 'package:gap/gap.dart';
 
@@ -44,7 +45,7 @@ class _SignInState extends State<SignIn> {
       // }
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
+        MaterialPageRoute(builder: (context) => const AuthPage()),
       );
     } on FirebaseAuthException catch (e) {
       // if (mounted) {
@@ -187,7 +188,7 @@ class _SignInState extends State<SignIn> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const HomePage()),
+                                    builder: (context) => const AuthPage()),
                               );
                             },
                             style: ElevatedButton.styleFrom(
@@ -200,7 +201,7 @@ class _SignInState extends State<SignIn> {
                           ),
                           const Gap(30),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () => AuthService().signInWithGoogle(context),
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: secondaryColor,
                                 fixedSize: const Size(335, 54)),

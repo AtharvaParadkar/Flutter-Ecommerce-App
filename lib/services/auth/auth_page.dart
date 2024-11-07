@@ -6,19 +6,32 @@ import 'package:flutter_ecommerce_app/screens/onboard1.dart';
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
 
+  Future<User?> checkAuthStatus() async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    return FirebaseAuth.instance.currentUser;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
+      body: FutureBuilder<User?>(
+        future: checkAuthStatus(),
         builder: (context, snapshot) {
-          debugPrint('Auth state: ${snapshot.hasData ? "Logged In" : "Logged Out"}');
+          debugPrint(
+              'Auth state: ${snapshot.hasData ? "Logged In" : "Logged Out"}');
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
           //& User is Logged in
-          if(snapshot.hasData){
+          if (snapshot.data != null) {
             return const HomePage();
           }
           //& User is Not Logged in
-          else{
+          else {
             return const Onboard1();
           }
         },

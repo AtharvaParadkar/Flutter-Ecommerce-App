@@ -3,7 +3,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_app/components/text_field.dart';
-import 'package:flutter_ecommerce_app/screens/signin.dart';
+import 'package:flutter_ecommerce_app/services/auth/auth_page.dart';
+import 'package:flutter_ecommerce_app/services/auth/auth_service.dart';
 import 'package:flutter_ecommerce_app/theme/theme.dart';
 import 'package:gap/gap.dart';
 
@@ -42,17 +43,17 @@ class _SignUpState extends State<SignUp> {
             email: emailController.text,
             password: passwordController.text,
           );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const AuthPage()),
+        );
         }else{
-          debugPrint('Passwords don\' match');
-          showErrorDialog('Passwords don\' match');
+          debugPrint('Passwords don\'t match');
+          showErrorDialog('Passwords don\'t match');
         }
         // if (mounted) {
         //   Navigator.pop(context);
         // }
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const SignIn()),
-        );
       } on FirebaseAuthException catch (e) {
         // if (mounted) {
         //   Navigator.pop(context);
@@ -205,7 +206,7 @@ class _SignUpState extends State<SignUp> {
                           ),
                           const Gap(30),
                           ElevatedButton(
-                            onPressed: (){},
+                            onPressed: ()=> AuthService().signInWithGoogle(context),
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: secondaryColor,
                                 fixedSize: const Size(335, 54)),

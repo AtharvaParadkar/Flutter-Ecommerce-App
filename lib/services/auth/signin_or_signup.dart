@@ -6,10 +6,10 @@ class SigninOrSignupPage extends StatefulWidget {
   const SigninOrSignupPage({super.key});
 
   @override
-  State<SigninOrSignupPage> createState() => _LoginOrRegisterPageState();
+  State<SigninOrSignupPage> createState() => _SigninOrSignupPageState();
 }
 
-class _LoginOrRegisterPageState extends State<SigninOrSignupPage> {
+class _SigninOrSignupPageState extends State<SigninOrSignupPage> {
   // Initially show login page
   bool showLoginPage = true;
 
