@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_app/screens/signin.dart';
 import 'package:flutter_ecommerce_app/theme/theme.dart';
+import 'package:flutter_ecommerce_app/widgets/drawer.dart';
 import 'package:gap/gap.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,6 +14,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
+
+  final GlobalKey<ScaffoldState> _scaffoldKey=GlobalKey<ScaffoldState>();
 
   final searchController = TextEditingController();
 
@@ -27,11 +30,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: primaryColor,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            _scaffoldKey.currentState?.openDrawer();
+          },
           style: IconButton.styleFrom(backgroundColor: secondaryColor),
           icon: const Icon(
             Icons.grid_view_rounded,
@@ -77,6 +83,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+      drawer: const MyDrawer(),
       body: Container(
         color: primaryColor,
         child: Column(
