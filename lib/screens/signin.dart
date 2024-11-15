@@ -6,12 +6,13 @@ import 'package:flutter_ecommerce_app/components/text_field.dart';
 import 'package:flutter_ecommerce_app/services/auth/auth_page.dart';
 import 'package:flutter_ecommerce_app/services/auth/auth_service.dart';
 import 'package:flutter_ecommerce_app/theme/theme.dart';
+import 'package:flutter_ecommerce_app/utils/custom_clipper.dart';
 import 'package:gap/gap.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key, this.ontap});
 
-  final Function()? ontap; 
+  final Function()? ontap;
 
   @override
   State<SignIn> createState() => _SignInState();
@@ -24,6 +25,9 @@ class _SignInState extends State<SignIn> {
   final formkey = GlobalKey<FormState>();
 
   bool obstext = true;
+
+  // Bool to handle torch Effect
+  bool isShowTorch = false;
 
   Future<void> signUserIn() async {
     // showDialog(
@@ -155,17 +159,72 @@ class _SignInState extends State<SignIn> {
                             style: primaryTextStyle(16, FontWeight.w500),
                           ),
                           const Gap(16),
-                          MyTextField(
-                            controller: passwordController,
-                            hintText: '●●●●●●●●',
-                            obscureText: true,
-                            validator: (value) {
-                              if (value.toString().length < 8) {
-                                return 'Password must be greater than 8 characters';
-                              } else {
-                                return null;
-                              }
-                            },
+                          Stack(
+                            children: [
+                              Container(
+                                height: 52,
+                                width: 335,
+                                decoration: BoxDecoration(
+                                  color: secondaryColor,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: TextFormField(
+                                  controller: passwordController,
+                                  obscureText: true,
+                                  onChanged: (val) {
+                                    setState(() {});
+                                  },
+                                  cursorColor: Colors.white,
+                                  maxLength: 10,
+                                  style: primaryTextStyle(16, FontWeight.w600),
+                                  decoration: InputDecoration(
+                                    counterText: "",
+                                    contentPadding:
+                                        const EdgeInsets.only(top: 10),
+                                    border: InputBorder.none,
+                                    suffixIcon: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          isShowTorch = !isShowTorch;
+                                        });
+                                      },
+                                      child: Icon(isShowTorch
+                                          ? Icons.visibility_off
+                                          : Icons.visibility),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              isShowTorch
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(right: 40),
+                                      child: SizedBox(
+                                        height: 47,
+                                        width: 290,
+                                        child: ClipPath(
+                                          clipper: MyClipper(),
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                            ),
+                                            padding:
+                                                const EdgeInsets.only(left: 10),
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              passwordController.text,
+                                              style: const TextStyle(
+                                                  fontSize: 20,
+                                                  color: Colors.black),
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(),
+                            ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -201,7 +260,8 @@ class _SignInState extends State<SignIn> {
                           ),
                           const Gap(30),
                           ElevatedButton(
-                            onPressed: () => AuthService().signInWithGoogle(context),
+                            onPressed: () =>
+                                AuthService().signInWithGoogle(context),
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: secondaryColor,
                                 fixedSize: const Size(335, 54)),
@@ -238,7 +298,7 @@ class _SignInState extends State<SignIn> {
                     style: secondaryTextStyle(12, FontWeight.w400),
                   ),
                   InkWell(
-                    onTap:widget.ontap,
+                    onTap: widget.ontap,
                     child: Text(
                       'Sign Up For Free',
                       style: primaryTextStyle(12, FontWeight.w500),

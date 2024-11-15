@@ -6,6 +6,7 @@ import 'package:flutter_ecommerce_app/components/text_field.dart';
 import 'package:flutter_ecommerce_app/services/auth/auth_page.dart';
 import 'package:flutter_ecommerce_app/services/auth/auth_service.dart';
 import 'package:flutter_ecommerce_app/theme/theme.dart';
+import 'package:flutter_ecommerce_app/utils/custom_clipper.dart';
 import 'package:gap/gap.dart';
 
 class SignUp extends StatefulWidget {
@@ -25,52 +26,53 @@ class _SignUpState extends State<SignUp> {
 
   bool obstext = true;
 
-  
-    Future<void> signUserUp() async {
-      // showDialog(
-      //   context: context,
-      //   barrierDismissible: false,
-      //   builder: (context) => const Center(
-      //     child: CircularProgressIndicator(),
-      //   ),
-      // );
+  // Bool to handle torch Effect
+  bool isShowTorch = false;
 
-      try {
-        if (passwordController.text == confirmPasswordController.text) {
-          // ignore: unused_local_variable
-          final credential =
-              await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: emailController.text,
-            password: passwordController.text,
-          );
+  Future<void> signUserUp() async {
+    // showDialog(
+    //   context: context,
+    //   barrierDismissible: false,
+    //   builder: (context) => const Center(
+    //     child: CircularProgressIndicator(),
+    //   ),
+    // );
+
+    try {
+      if (passwordController.text == confirmPasswordController.text) {
+        // ignore: unused_local_variable
+        final credential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const AuthPage()),
         );
-        }else{
-          debugPrint('Passwords don\'t match');
-          showErrorDialog('Passwords don\'t match');
-        }
-        // if (mounted) {
-        //   Navigator.pop(context);
-        // }
-      } on FirebaseAuthException catch (e) {
-        // if (mounted) {
-        //   Navigator.pop(context);
-        // }
-        // if (mounted) {
-        //   setState(() {});
-        // }
-        if (e.code == 'user-not-found') {
-          debugPrint('No user Found for this email');
-          showErrorDialog('No User Found for this Email');
-        } else if (e.code == 'wrong-password') {
-          debugPrint('Wrong password provided for that user.');
-          showErrorDialog('Wrong Password');
-        }
+      } else {
+        debugPrint('Passwords don\'t match');
+        showErrorDialog('Passwords don\'t match');
+      }
+      // if (mounted) {
+      //   Navigator.pop(context);
+      // }
+    } on FirebaseAuthException catch (e) {
+      // if (mounted) {
+      //   Navigator.pop(context);
+      // }
+      // if (mounted) {
+      //   setState(() {});
+      // }
+      if (e.code == 'user-not-found') {
+        debugPrint('No user Found for this email');
+        showErrorDialog('No User Found for this Email');
+      } else if (e.code == 'wrong-password') {
+        debugPrint('Wrong password provided for that user.');
+        showErrorDialog('Wrong Password');
       }
     }
-  
+  }
 
   void showErrorDialog(String message) {
     showDialog(
@@ -163,17 +165,70 @@ class _SignUpState extends State<SignUp> {
                             style: primaryTextStyle(16, FontWeight.w500),
                           ),
                           const Gap(10),
-                          MyTextField(
-                            controller: passwordController,
-                            hintText: '●●●●●●●●',
-                            obscureText: true,
-                            validator: (value) {
-                              if (value.toString().length < 8) {
-                                return 'Password must be greater than 8 characters';
-                              } else {
-                                return null;
-                              }
-                            },
+                          Stack(
+                            children: [
+                              Container(
+                                height: 52,
+                                width: 335,
+                                decoration: BoxDecoration(
+                                  color: secondaryColor,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: TextFormField(
+                                  controller: passwordController,
+                                  obscureText: true,
+                                  onChanged: (val) {
+                                    setState(() {});
+                                  },
+                                  cursorColor: Colors.white,
+                                  maxLength: 10,
+                                  style: primaryTextStyle(16, FontWeight.w600),
+                                  decoration: InputDecoration(
+                                    counterText: "",
+                                    contentPadding:
+                                        const EdgeInsets.only(top: 10),
+                                    border: InputBorder.none,
+                                    suffixIcon: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          isShowTorch = !isShowTorch;
+                                        });
+                                      },
+                                      child: Icon(isShowTorch
+                                          ? Icons.visibility_off
+                                          : Icons.visibility),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              isShowTorch
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(right: 40),
+                                      child: SizedBox(
+                                        height: 47,
+                                        width: 290,
+                                        child: ClipPath(
+                                          clipper: MyClipper(),
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                            ),
+                                            padding:
+                                                const EdgeInsets.only(left: 10),
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              passwordController.text,
+                                              style: const TextStyle(fontSize: 20,color: Colors.black),
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(),
+                            ],
                           ),
                           const Gap(25),
                           Text(
@@ -181,17 +236,70 @@ class _SignUpState extends State<SignUp> {
                             style: primaryTextStyle(16, FontWeight.w500),
                           ),
                           const Gap(10),
-                          MyTextField(
-                            controller: confirmPasswordController,
-                            hintText: '●●●●●●●●',
-                            obscureText: true,
-                            validator: (value) {
-                              if (value.toString().length < 8) {
-                                return 'Password must be greater than 8 characters';
-                              } else {
-                                return null;
-                              }
-                            },
+                          Stack(
+                            children: [
+                              Container(
+                                height: 52,
+                                width: 335,
+                                decoration: BoxDecoration(
+                                  color: secondaryColor,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: TextFormField(
+                                  controller: passwordController,
+                                  obscureText: true,
+                                  onChanged: (val) {
+                                    setState(() {});
+                                  },
+                                  cursorColor: Colors.white,
+                                  maxLength: 10,
+                                  style: primaryTextStyle(16, FontWeight.w600),
+                                  decoration: InputDecoration(
+                                    counterText: "",
+                                    contentPadding:
+                                        const EdgeInsets.only(top: 10),
+                                    border: InputBorder.none,
+                                    suffixIcon: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          isShowTorch = !isShowTorch;
+                                        });
+                                      },
+                                      child: Icon(isShowTorch
+                                          ? Icons.visibility_off
+                                          : Icons.visibility),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              isShowTorch
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(right: 40),
+                                      child: SizedBox(
+                                        height: 47,
+                                        width: 290,
+                                        child: ClipPath(
+                                          clipper: MyClipper(),
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                            ),
+                                            padding:
+                                                const EdgeInsets.only(left: 10),
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              passwordController.text,
+                                              style: const TextStyle(fontSize: 20,color: Colors.black),
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(),
+                            ],
                           ),
                           const Gap(40),
                           ElevatedButton(
@@ -206,7 +314,8 @@ class _SignUpState extends State<SignUp> {
                           ),
                           const Gap(30),
                           ElevatedButton(
-                            onPressed: ()=> AuthService().signInWithGoogle(context),
+                            onPressed: () =>
+                                AuthService().signInWithGoogle(context),
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: secondaryColor,
                                 fixedSize: const Size(335, 54)),
